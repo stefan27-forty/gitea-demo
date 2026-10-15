@@ -1,0 +1,29 @@
+services:
+  gitea:
+    image: gitea/gitea:latest
+    ports:
+      - "8080:3000"
+      - "2222:20"
+    environment:
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=db:5432
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=gitea
+      - GITEA__database__PASSWORD=gitea
+    volumes:
+      - gitea_data:/data
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=gitea
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD= gitea
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  gitea_data:
+  db_data: 
